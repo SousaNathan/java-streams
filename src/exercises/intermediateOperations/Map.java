@@ -1,6 +1,10 @@
 package exercises.intermediateOperations;
 
+import entity.Client;
+import entity.Product;
 import mock.Mock;
+
+import java.util.stream.Collectors;
 
 // Utilizando a operação intermediária 'MAP', desenvolva as soluções para:
 public class Map {
@@ -9,7 +13,9 @@ public class Map {
     public static void exercise1() {
         var clients = Mock.clients();
 
-        var result = clients;
+        var result = clients.stream()
+                .map(Client::getName)
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }
@@ -18,7 +24,12 @@ public class Map {
     public static void exercise2() {
         var products = Mock.products();
 
-        var result = products;
+        var result = products.stream()
+                .filter(product -> product
+                        .getPrice() > 1500)
+                .map(Product::getName)
+                .collect(Collectors.toList());
+
 
         System.out.println(result);
     }
@@ -27,7 +38,13 @@ public class Map {
     public static void exercise3() {
         var orders = Mock.orders();
 
-        var result = orders;
+        var result = orders.stream()
+                .filter(order -> order
+                        .getPrice() > 80000)
+                .map(order -> order
+                        .getClient()
+                        .getName())
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }

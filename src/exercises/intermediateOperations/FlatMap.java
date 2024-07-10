@@ -2,6 +2,8 @@ package exercises.intermediateOperations;
 
 import mock.Mock;
 
+import java.util.stream.Collectors;
+
 // Utilizando a operação intermediária 'FLATMAP', desenvolva as soluções para:
 public class FlatMap {
 
@@ -9,7 +11,18 @@ public class FlatMap {
     public static void exercise1() {
         var orders = Mock.orders();
 
-        var result = orders;
+        var result = orders.stream()
+                .filter(order -> order
+                        .getClient()
+                        .getName()
+                        .equalsIgnoreCase("Ana"))
+                .flatMap(order -> order
+                        .getItems()
+                        .stream()
+                        .map(orderItem -> orderItem
+                                .getProduct()
+                                .getName()))
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }

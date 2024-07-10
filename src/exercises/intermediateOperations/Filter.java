@@ -2,6 +2,9 @@ package exercises.intermediateOperations;
 
 import mock.Mock;
 
+import java.time.Month;
+import java.util.stream.Collectors;
+
 // Utilizando a operação intermediária 'FILTER', desenvolva as soluções para:
 public class Filter {
 
@@ -9,7 +12,12 @@ public class Filter {
     public static void exercise1() {
         var clients = Mock.clients();
 
-        var result = clients;
+        var result = clients.stream()
+                .filter(client -> client
+                        .getName()
+                        .toUpperCase()
+                        .startsWith("MA"))
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }
@@ -18,7 +26,10 @@ public class Filter {
     public static void exercise2() {
         var products = Mock.products();
 
-        var result = products;
+        var result = products.stream()
+                .filter(product -> product
+                        .getPrice() > 2000)
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }
@@ -27,15 +38,21 @@ public class Filter {
     public static void exercise3() {
         var orders = Mock.orders();
 
-        var result = orders;
+        var result = orders.stream()
+                .filter(order -> order
+                        .getClient()
+                        .getBirthDate()
+                        .getMonth()
+                        .equals(Month.AUGUST))
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }
 
     public static void main(String[] args) {
-        exercise1();
+//        exercise1();
 //        exercise2();
-//        exercise3();
+        exercise3();
     }
 
 
