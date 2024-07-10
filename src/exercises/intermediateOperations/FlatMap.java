@@ -18,10 +18,10 @@ public class FlatMap {
                         .equalsIgnoreCase("Ana"))
                 .flatMap(order -> order
                         .getItems()
-                        .stream()
-                        .map(orderItem -> orderItem
-                                .getProduct()
-                                .getName()))
+                        .stream())
+                .map(orderItem -> orderItem
+                        .getProduct()
+                        .getName())
                 .collect(Collectors.toList());
 
         System.out.println(result);
