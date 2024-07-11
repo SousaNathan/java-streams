@@ -1,6 +1,11 @@
 package exercises.intermediateOperations;
 
+import entity.Client;
+import entity.Order;
 import mock.Mock;
+
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 // Utilizando a operação intermediária 'LIMIT', desenvolva as soluções para:
 public class Limit {
@@ -9,7 +14,12 @@ public class Limit {
     public static void exercise1() {
         var orders = Mock.orders();
 
-        var result = orders;
+        var result = orders.stream()
+                .sorted(Comparator.comparing(
+                        Order::getPrice,
+                        Comparator.reverseOrder()))
+                .limit(2)
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }
@@ -18,7 +28,14 @@ public class Limit {
     public static void exercise2() {
         var orders = Mock.orders();
 
-        var result = orders;
+        var result = orders.stream()
+                .sorted(Comparator.comparing(order -> order
+                        .getItems()
+                        .size(),
+                        Comparator.reverseOrder()))
+                .map(Order::getClient)
+                .limit(3)
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }

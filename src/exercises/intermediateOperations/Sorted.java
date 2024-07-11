@@ -1,6 +1,13 @@
 package exercises.intermediateOperations;
 
+import entity.Client;
+import entity.Order;
+import entity.OrderItem;
+import entity.Product;
 import mock.Mock;
+
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 // Utilizando a operação intermediária 'SORTED', desenvolva as soluções para:
 public class Sorted {
@@ -9,7 +16,10 @@ public class Sorted {
     public static void exercise1() {
         var clients = Mock.clients();
 
-        var result = clients;
+        var result = clients.stream()
+                .map(Client::getName)
+                .sorted()
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }
@@ -18,7 +28,9 @@ public class Sorted {
     public static void exercise2() {
         var products = Mock.products();
 
-        var result = products;
+        var result = products.stream()
+                .sorted(Comparator.comparing(Product::getPrice, Comparator.reverseOrder()))
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }
@@ -28,14 +40,23 @@ public class Sorted {
     public static void exercise3() {
         var orders = Mock.orders();
 
-        var result = orders;
+        var result = orders.stream()
+                .filter(order -> order
+                        .getClient()
+                        .getName()
+                        .equalsIgnoreCase("Ana"))
+                .flatMap(order -> order
+                        .getItems()
+                        .stream())
+                .sorted(Comparator.comparing(OrderItem::getPrice, Comparator.reverseOrder()))
+                .collect(Collectors.toList());
 
         System.out.println(result);
     }
 
     public static void main(String[] args) {
-        exercise1();
-//        exercise2();
+//        exercise1();
+        exercise2();
 //        exercise3();
     }
 
