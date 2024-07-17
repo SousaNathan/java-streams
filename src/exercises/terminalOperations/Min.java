@@ -1,6 +1,12 @@
 package exercises.terminalOperations;
 
+import entity.Client;
+import entity.Order;
+import entity.OrderItem;
+import entity.Product;
 import mock.Mock;
+
+import java.util.Comparator;
 
 // Utilizando a operação terminal 'MIN', desenvolva as soluções para:
 public class Min {
@@ -9,7 +15,10 @@ public class Min {
     public static void exercise1() {
         var products = Mock.products();
 
-        var result = products;
+        var result = products.stream()
+                .min(Comparator.comparing(Product::getPrice));
+
+        result.ifPresent(System.out::println);
 
         System.out.println(result);
     }
@@ -18,7 +27,10 @@ public class Min {
     public static void exercise2() {
         var clients = Mock.clients();
 
-        var result = clients;
+        var result = clients.stream()
+                .min(Comparator.comparing(client -> client.getName().length()));
+
+        result.ifPresent(System.out::println);
 
         System.out.println(result);
     }
@@ -27,7 +39,9 @@ public class Min {
     public static void exercise3() {
         var orders = Mock.orders();
 
-        var result = orders;
+        var result = orders.stream()
+                .flatMap(order -> order.getItems().stream())
+                .min(Comparator.comparing(OrderItem::getPrice));
 
         System.out.println(result);
     }

@@ -1,5 +1,7 @@
 package exercises.terminalOperations;
 
+import entity.Client;
+import entity.Product;
 import mock.Mock;
 
 // Utilizando a operação terminal 'REDUCE', desenvolva as soluções para:
@@ -9,18 +11,26 @@ public class Reduce {
     public static void exercise1() {
         var clients = Mock.clients();
 
-        var result = clients;
+        var result = clients.stream()
+                .map(Client::getAge)
+                .reduce(Integer::sum);
+//                .orElse(0); utilizando orElse
 
-        System.out.println(result);
+        result.ifPresent(System.out::println);
+
+//        System.out.println(result);
     }
 
     // 2) Retornar a soma dos preços de todos os produtos que custam menos de 100
     public static void exercise2() {
         var products = Mock.products();
 
-        var result = products;
+        var result = products.stream()
+                .map(Product::getPrice)
+                .filter(price -> price < 100)
+                .reduce(0.0, Double::sum);
 
-        System.out.println(result);
+        System.out.println();
     }
 
 
